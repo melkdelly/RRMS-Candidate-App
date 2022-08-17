@@ -1,5 +1,5 @@
 <template>
-    <h2> Login </h2>
+    <h2> Dealer Login </h2>
     <form>
         <div type="form-group">
             <label for="emailInput"> Email: </label> <br>
