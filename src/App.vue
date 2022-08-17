@@ -1,5 +1,5 @@
 <template>
-    <img alt="RRM logo" src="./assets/rapidlogo.png">
+    <img alt="RRMS logo" src="./assets/rapidlogo.png">
     <LogIn />
 </template>
 
