@@ -1,6 +1,6 @@
-import Vue from 'vue';
-import Router from 'vue-router';
-import LogIn from '@/components/LogIn';
+import Vue from 'vue'
+import Router from 'vue-router'
+import LogIn from '@/components/LogIn'
 
 Vue.use(Router)
 

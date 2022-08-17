@@ -1,6 +1,6 @@
 <template>
-  <img alt="Vue logo" src="./assets/logo.png">
-  <LogIn />
+    <img alt="RRM logo" src="./assets/rapidlogo.png">
+    <LogIn />
 </template>
 
 <script>
