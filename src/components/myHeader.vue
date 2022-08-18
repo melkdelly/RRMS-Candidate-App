@@ -1,12 +1,17 @@
 <template>
 <div class="nav">
-    <a> Logout </a>
+    <a @click='logout' href='?'> Logout </a>
 </div>
 </template>
 
 <script>
 export default {
-  name: 'myHeader'
+  name: 'MyHeader',
+  methods: {
+    logout () {
+      this.$router.push({ name: 'LogIn' })
+    }
+  }
 }
 </script>
 
