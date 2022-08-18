@@ -1,16 +1,12 @@
 <template>
-    <img alt="RRMS logo" src="./assets/rapidlogo.png">
-    <LogIn />
+  <div id="app">
+    <router-view> </router-view>
+  </div>
 </template>
 
 <script>
-import LogIn from './components/LogIn.vue'
-
 export default {
-  name: 'App',
-  components: {
-    LogIn
-  }
+  name: 'App'
 }
 </script>
 
