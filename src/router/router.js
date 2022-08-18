@@ -1,16 +1,24 @@
-//Router file is still in progress...
-import Vue from 'vue'
-import Router from 'vue-router'
+// Router file is still in progress...
 import LogIn from '@/components/LogIn'
+import SignalPage from '@/components/SignalPage'
+import { createRouter, createWebHistory } from 'vue-router'
 
-Vue.use(Router)
+const routes = [
+  {
+    path: '/',
+    name: 'LogIn',
+    component: LogIn
+  },
+  {
+    path: '/signal-page',
+    name: 'SignalPage',
+    component: SignalPage
+  }
+]
 
-export default new Router({
-  routes: [
-    {
-      path: '/',
-      name: 'LogIn',
-      component: LogIn
-    }
-  ]
+const router = createRouter({
+  history: createWebHistory(),
+  routes
 })
+
+export default router
