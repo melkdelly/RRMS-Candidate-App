@@ -1,23 +1,24 @@
 <template>
 <div class="nav">
-    <a @click='logout' href='?'> Logout </a>
+    <router-link to='/'> Logout </router-link>
 </div>
 </template>
 
 <script>
 export default {
-  name: 'MyHeader',
-  methods: {
-    logout () {
-      this.$router.push({ name: 'LogIn' })
-    }
-  }
+  name: 'MyHeader'
 }
+
 </script>
 
 <style>
 .nav{
-    background-color: green;
+    font-size: 20px;
+    font-weight: 600;
+    color: transparent;
+    background-clip: text;
+    -webkit-background-clip: text;
+    text-align: right;
     overflow:hidden
 }
 </style>
