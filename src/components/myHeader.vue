@@ -1,14 +1,18 @@
 <template>
 <div class="nav">
-    <router-link to='/'> Logout </router-link>
+    <router-link to='/' @click="logout"> Logout </router-link>
 </div>
 </template>
 
 <script>
 export default {
-  name: 'MyHeader'
+  name: 'MyHeader',
+  methods: {
+    logout () {
+      localStorage.clear('userData')
+    }
+  }
 }
-
 </script>
 
 <style>
