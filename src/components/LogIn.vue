@@ -35,7 +35,8 @@ export default {
         password: this.password
       })
       if (result.status === 200) {
-        localStorage.setItem('userInfo', JSON.stringify(result.data[0]))
+        localStorage.setItem('userInfo', JSON.stringify(
+          [result.data.email, result.data.firstName, result.data.lastName, result.data.token, result.data.userId]))
         this.$router.push({ name: 'SignalPage' })
       }
       console.warn(result)
