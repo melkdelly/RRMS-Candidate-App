@@ -34,7 +34,7 @@ export default {
         email: this.email,
         password: this.password
       })
-      if (result.status === 200 && result.data.length > 0) {
+      if (result.status === 200) {
         localStorage.setItem('userInfo', JSON.stringify(result.data[0]))
         this.$router.push({ name: 'SignalPage' })
       }
