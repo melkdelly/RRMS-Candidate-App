@@ -1,4 +1,3 @@
-// Router file is still in progress...
 import LogIn from '@/components/LogIn'
 import SignalPage from '@/components/SignalPage'
 import { createRouter, createWebHistory } from 'vue-router'
