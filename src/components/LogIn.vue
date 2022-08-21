@@ -20,6 +20,7 @@
 
 <script>
 import axios from 'axios'
+import setAuthHeader from '@/auth/setAuthHeader.js'
 export default {
   name: 'LogIn',
   data () {
@@ -37,6 +38,7 @@ export default {
       if (result.status === 200) {
         localStorage.setItem('userInfo', JSON.stringify(
           [result.data.email, result.data.firstName, result.data.lastName, result.data.token, result.data.userId]))
+        setAuthHeader(result.data.token)
         this.$router.push({ name: 'SignalPage' })
       }
       console.warn(result)
