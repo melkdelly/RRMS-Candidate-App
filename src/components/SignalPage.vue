@@ -1,17 +1,15 @@
 <template>
 <MyHeader />
+<h1> Latest Signals </h1>
 <table>
-  <thead>
-    <tr>
-      <th> Date/Time </th>
-      <th> Signal </th>
-      <th> Signal Desc. </th>
-      <th> Alarm # </th>
+    <tr v-for="items in signals" :key="items.id">
+      <td> {{ items.alarmNum }} </td>
+      <td> {{ items.eventCodeDesc }} </td>
+      <td> {{ items.pointDesc }} </td>
+      <td> {{ items.signalCode }} </td>
+      <td> {{ items.xmit }} </td>
+      <td> {{ items.siteDate }} </td>
     </tr>
-  </thead>
-  <tbody>
-    <td> </td>
-  </tbody>
 </table>
 </template>
 
@@ -23,10 +21,9 @@ export default {
   name: 'SignalPage',
   data () {
     return {
-      signalsURL: 'https://grasperapi.azurewebsites.net/api/v1/Users/Signals',
       signals: [],
       signalsData: {
-        per_page: 10,
+        per_page: 25,
         page: 1
       },
       pagination: {
@@ -40,18 +37,14 @@ export default {
     }
   },
   components: { MyHeader },
-  methods: {
-    getSignals () {
-      axios.get(this.signalsURL, { params: this.signalsData })
-        .then((response) => { this.signals = response.data })
-        .catch((error) => { console.log(error) })
-    }
-  },
-  mounted () {
+  async mounted () {
     const user = localStorage.getItem('userInfo')
     if (!user) {
       this.$router.push({ name: 'LogIn' })
     }
+    const result = await axios.get('https://grasperapi.azurewebsites.net/api/v1/Signals')
+    console.warn(result)
+    this.signals = result.data.items
   }
 }
 </script>
