@@ -59,7 +59,7 @@ export default {
   components: { MyHeader },
   methods: {
     async getSignals () {
-      axios.get(this.signalsURL)
+      await axios.get(this.signalsURL)
         .then(response => { this.signals = response.data.items })
         .catch((error) => { console.log(error) })
     },
