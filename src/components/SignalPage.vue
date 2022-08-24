@@ -1,6 +1,7 @@
 <template>
 <MyHeader />
-<h1> Latest Signals </h1>
+<h1> Welcome </h1>
+<h3> Latest Signals </h3>
 <table>
   <thead>
     <tr>
@@ -24,10 +25,7 @@
   </tbody>
 </table>
 <nav class="pagination-nav-bar">
-    <button class="pagination-button" id="first-button">
-      &lt;&lt;
-    </button>
-    <button class="pagination-button" @click="prevPage" id="prev-button">
+    <button class="pagination-button" @click="prevPage" id="prevButton">
       &lt;
     </button>
     <span v-for="(item, index) in new Array(this.signals.length / this.perPage)" :key="index">
@@ -35,11 +33,8 @@
         {{ index + 1 }}
       </button>
     </span>
-    <button class="pagination-button" @click="nextPage" id="next-button">
+    <button class="pagination-button" @click="nextPage" id="nextButton">
       &gt;
-    </button>
-    <button class="pagination-button" @clickid="last-button" id="last-button">
-      &gt;&gt;
     </button>
 </nav>
 </template>
@@ -81,32 +76,14 @@ export default {
       const to = (page * perPage)
       return signals.slice(from, to)
     },
-    firstPage () {
-      if (this.page < this.perPage) {
-        this.page = (this.perPage / this.perPage)
-      } else {
-        document.getElementById('first-button').disabled = true
-      }
-    },
     nextPage () {
-      if (this.page < this.perPage) {
+      if (this.page <= this.perPage - 1) {
         this.page = this.page + 1
-      } else {
-        document.getElementById('next-button').disabled = true
       }
     },
     prevPage () {
       if (this.page > 1) {
         this.page = this.page - 1
-      } else {
-        document.getElementById('prev-button').disabled = true
-      }
-    },
-    lastPage () {
-      if (this.page < this.perPage) {
-        this.page = this.perPage
-      } else {
-        document.getElementById('last-button').disabled = true
       }
     }
   },
@@ -141,19 +118,43 @@ export default {
 </script>
 
 <style scoped>
+h3 {
+  text-align: left;
+}
+
+table {
+  width: 100%;
+  border: 0;
+  empty-cells: hide;
+}
+
 th {
   background-color: grey;
   color: white;
+  font-style: italic;
 }
 
 tr:nth-child(even) {
   background-color: #f2f2f2;
 }
 
-.pagination-button{
-  background-color: #008CBA;
+nav {
+  display: flex;
+  justify-content: center;
+}
+
+.pagination-nav-bar{
   font-size: 16px;
+  margin: 0;
   padding: 8px;
   border-radius: 4px;
+  list-style: none;
+  display: flex;
+  column-gap: 2px;
+}
+
+.pagination-button:hover {
+  background-color: lightblue;
+  transition: 0.7s;
 }
 </style>
