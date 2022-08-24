@@ -8,6 +8,6 @@ The API in use is a dummy text provided by Rapid Response Monitoring.
 
 ## Screenshots
 
-![Alt text](/assets/loginSC.png?raw=true "LogIn Page")
+![Alt text](/rapid_project/assets/loginSC.png?raw=true "LogIn Page")
 
-![Alt text](/assets/signalsSC.png?raw=true "Signal Page")
+![Alt text](/rapid_project/assets/signalsSC.png?raw=true "Signal Page")
