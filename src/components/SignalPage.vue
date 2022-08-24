@@ -117,7 +117,7 @@ export default {
 }
 </script>
 
-<style scoped>
+<style>
 h3 {
   text-align: left;
 }
