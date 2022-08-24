@@ -1,7 +1,7 @@
 <template>
     <img alt="RRMS Logo" src="../assets/rapidlogo.png">
-    <h1> Dealer Login </h1>
     <form @submit.prevent="login">
+      <h2> Dealer Login </h2>
         <div type="form-group">
             <input type="email"
             v-model="email"
@@ -12,8 +12,7 @@
             v-model="password"
             placeholder="Enter Password"
             size="30">
-        <br> <br>
-        <button @click="login"> Login </button>
+        <button type="button" class="button" @click="login"> Login </button>
         </div>
     </form>
 </template>
@@ -41,8 +40,38 @@ export default {
         setAuthHeader(result.data.token)
         this.$router.push({ name: 'SignalPage' })
       }
-      console.warn(result)
     }
   }
 }
 </script>
+
+<style scoped>
+input {
+  padding: 10px;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+.button {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 10px auto;
+  background-color: grey;
+  border-style: none;
+  padding: 10px 30px;
+}
+
+.button:hover {
+    background-color: lightblue;
+    transition: 0.7s;
+}
+
+.button:focus {
+    outline-color: transparent;
+    outline-style: solid;
+    box-shadow: 0 0 0 4px blue;
+}
+</style>
