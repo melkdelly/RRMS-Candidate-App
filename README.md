@@ -1,24 +1,13 @@
 # rapid_project
 
 ## Project setup
-```
-npm install
-```
 
-### Compiles and hot-reloads for development
-```
-npm run serve
-```
+This project lets a user (authenticated through the Grasper API) login and view the latest signals associated with their account.
 
-### Compiles and minifies for production
-```
-npm run build
-```
+The API in use is a dummy text provided by Rapid Response Monitoring.
 
-### Lints and fixes files
-```
-npm run lint
-```
+## Screenshots
 
-### Customize configuration
-See [Configuration Reference](https://cli.vuejs.org/config/).
+![Alt text](/assets/loginSC.png?raw=true "LogIn Page")
+
+![Alt text](/assets/signalsSC.png?raw=true "Signal Page")
