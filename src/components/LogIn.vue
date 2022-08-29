@@ -37,6 +37,7 @@ export default {
       if (result.status === 200) {
         localStorage.setItem('userInfo', JSON.stringify(
           [result.data.email, result.data.firstName, result.data.lastName, result.data.token, result.data.userId]))
+        localStorage.setItem('userToken', result.data.token)
         setAuthHeader(result.data.token)
         this.$router.push({ name: 'SignalPage' })
       }
