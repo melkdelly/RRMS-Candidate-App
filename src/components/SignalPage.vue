@@ -24,7 +24,7 @@
     </tr>
   </tbody>
 </table>
-<nav class="pagination-nav-bar">
+<nav class="pagination-nav-bar" @change="handlePageChange">
     <button class="pagination-button" @click="prevPage" id="prevButton">
       &lt;
     </button>
@@ -41,6 +41,7 @@
 
 <script>
 import MyHeader from './MyHeader.vue'
+import SigDataService from '@/services/SigDataService'
 import axios from 'axios'
 import moment from 'moment'
 
@@ -50,6 +51,7 @@ export default {
     return {
       signalsURL: 'https://grasperapi.azurewebsites.net/api/v1/Signals',
       signals: [],
+      searchSignal: '',
       perPage: 10,
       page: 1,
       currentPage: 0,
@@ -85,11 +87,48 @@ export default {
       if (this.page > 1) {
         this.page = this.page - 1
       }
+    },
+    getRequestParams (searchSignal, page, perPage) {
+      const params = {}
+      if (searchSignal) {
+        params.signal = searchSignal
+      }
+      if (page) {
+        params.page = page
+      }
+      if (perPage) {
+        params.size = perPage
+      }
+      return params
+    },
+    retrieveSignal () {
+      const params = this.getRequestParams(
+        this.searchSignal,
+        this.page,
+        this.perPage
+      )
+      SigDataService.getAll(params)
+        .then((response) => {
+          const { signals, totalItems } = response.data
+          this.signals = signals
+          this.currentPage = totalItems
+          console.log(response.data)
+        })
+        .catch((error) => {
+          console.log(error)
+        })
+    },
+    handlePageChange (value) {
+      this.page = value
+      this.retrieveSignal()
+      this.getSignals()
     }
   },
   created () {
     // Displays the data from the Get API function
     this.getSignals()
+    // Utilizes Server-Side Paging
+    this.retrieveSignal()
   },
   mounted () {
     // re-routes user to login page if they enter URL for
