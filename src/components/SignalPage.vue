@@ -14,26 +14,26 @@
     </tr>
   </thead>
   <tbody>
-    <tr v-for="items in displayedSignals" :key="items.id">
-      <td> {{ items.alarmNum }} </td> <!-- all 100 of them are null-->
-      <td> {{ items.eventCodeDesc }} </td>
-      <td> {{ items.pointDesc }} </td>
-      <td> {{ items.signalCode }} </td>
-      <td> {{ items.xmit }} </td>
-      <td> {{ formatDate(items.siteDate) }} </td>
+    <tr v-for="signal in signals" :key="signal.signalId">
+      <td> {{ signal.alarmNum }} </td> <!-- all 100 of them are null-->
+      <td> {{ signal.eventCodeDesc }} </td>
+      <td> {{ signal.pointDesc }} </td>
+      <td> {{ signal.signalCode }} </td>
+      <td> {{ signal.xmit }} </td>
+      <td> {{ formatDate(signal.siteDate) }} </td>
     </tr>
   </tbody>
 </table>
-<nav class="pagination-nav-bar" @change="handlePageChange">
-    <button class="pagination-button" @click="prevPage" id="prevButton">
+<nav class="pagination-nav-bar">
+    <button class="pagination-button" @click="prevPage()" id="prevButton">
       &lt;
     </button>
-    <span v-for="(item, index) in new Array(this.signals.length / this.perPage)" :key="index">
-      <button class="pagination-button" @click="page = index + 1">
-        {{ index + 1 }}
+    <!-- <span v-for="index in numPages" :key="index"> -->
+      <button class="pagination-button disabled">
+        {{ currentPage }}
       </button>
-    </span>
-    <button class="pagination-button" @click="nextPage" id="nextButton">
+    <!-- </span> -->
+    <button class="pagination-button" @click="nextPage()" id="nextButton">
       &gt;
     </button>
 </nav>
@@ -42,76 +42,80 @@
 <script>
 import MyHeader from './MyHeader.vue'
 import SigDataService from '@/services/SigDataService'
-import axios from 'axios'
+// import axios from 'axios'
 import moment from 'moment'
 
 export default {
   name: 'SignalPage',
   data () {
     return {
-      signalsURL: 'https://grasperapi.azurewebsites.net/api/v1/Signals',
       signals: [],
-      searchSignal: '',
       perPage: 10,
-      page: 1,
-      currentPage: 0,
-      pages: []
+      currentPage: 1,
+      numPages: 1,
+      nextURL: '',
+      previousURL: ''
     }
   },
   components: { MyHeader },
   methods: {
-    async getSignals () {
-      await axios.get(this.signalsURL)
-        .then(response => { this.signals = response.data.items })
-        .catch((error) => { console.log(error) })
-    },
-    setPages () {
-      const numOfPages = Math.ceil(this.signals.length / this.perPage)
-      for (let index = 1; index <= numOfPages; index++) {
-        this.pages.push(index)
-      }
-    },
-    paginate (signals) {
-      const page = this.page
-      const perPage = this.perPage
-      const from = (page * perPage) - perPage
-      const to = (page * perPage)
-      return signals.slice(from, to)
-    },
+    // async getSignals () {
+    //   await axios.get(this.signalsURL)
+    //     .then(response => { this.signals = response.data.items })
+    //     .catch((error) => { console.log(error) })
+    // },
+    // setPages () {
+    //   const numOfPages = Math.ceil(this.signals.length / this.perPage)
+    //   for (let index = 1; index <= numOfPages; index++) {
+    //     this.pages.push(index)
+    //   }
+    // },
+    // paginate (signals) {
+    //   const page = this.page
+    //   const perPage = this.perPage
+    //   const from = (page * perPage) - perPage
+    //   const to = (page * perPage)
+    //   return signals.slice(from, to)
+    // },
     nextPage () {
-      if (this.page <= this.perPage - 1) {
-        this.page = this.page + 1
+      if (this.nextURL && this.nextURL.length > 0) {
+        this.currentPage += 1
+        this.retrieveSignal()
       }
     },
     prevPage () {
-      if (this.page > 1) {
-        this.page = this.page - 1
+      if (this.previousURL && this.previousURL.length > 0) {
+        this.currentPage -= 1
+        this.retrieveSignal()
       }
     },
-    getRequestParams (searchSignal, page, perPage) {
+    getRequestParams (pageNum, limit) {
       const params = {}
-      if (searchSignal) {
-        params.signal = searchSignal
+      if (pageNum) {
+        params.page = pageNum
       }
-      if (page) {
-        params.page = page
-      }
-      if (perPage) {
-        params.size = perPage
+      if (limit) {
+        params.Limit = limit
       }
       return params
     },
     retrieveSignal () {
       const params = this.getRequestParams(
-        this.searchSignal,
-        this.page,
+        this.currentPage,
         this.perPage
       )
       SigDataService.getAll(params)
         .then((response) => {
-          const { signals, totalItems } = response.data
-          this.signals = signals
-          this.currentPage = totalItems
+          if (response.data) {
+            if (response.data.items) {
+              this.signals = response.data.items
+            }
+            this.currentPage = response.data.currentPage
+            this.perPage = response.data.pageSize
+            this.numPages = response.data.numPages
+            this.nextURL = response.data.nextPage
+            this.previousURL = response.data.previousPage
+          }
           console.log(response.data)
         })
         .catch((error) => {
@@ -119,14 +123,14 @@ export default {
         })
     },
     handlePageChange (value) {
-      this.page = value
+      this.currentPage = value
       this.retrieveSignal()
-      this.getSignals()
+      // this.getSignals()
     }
   },
   created () {
     // Displays the data from the Get API function
-    this.getSignals()
+    // this.getSignals()
     // Utilizes Server-Side Paging
     this.retrieveSignal()
   },
@@ -138,18 +142,10 @@ export default {
       this.$router.push({ name: 'LogIn' })
     }
   },
-  watch: {
-    signals () {
-      this.setPages()
-    }
-  },
   computed: {
-    displayedSignals () {
-      return this.paginate(this.signals)
-    },
     formatDate () {
       return (val) => {
-        return moment(String(val)).format('MM/DD/YYYY HH:MM:SS')
+        return moment(String(val)).format('MM/DD/YYYY HH:mm:ss')
       }
     }
   }
