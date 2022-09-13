@@ -78,13 +78,13 @@ export default {
     //   return signals.slice(from, to)
     // },
     nextPage () {
-      if (this.nextURL && this.nextURL.length > 0) {
+      if (this.nextURL && this.nextURL.length > 0 && this.currentPage < this.perPage) {
         this.currentPage += 1
         this.retrieveSignal()
       }
     },
     prevPage () {
-      if (this.previousURL && this.previousURL.length > 0) {
+      if (this.previousURL && this.previousURL.length > 0 && this.currentPage > 1) {
         this.currentPage -= 1
         this.retrieveSignal()
       }
